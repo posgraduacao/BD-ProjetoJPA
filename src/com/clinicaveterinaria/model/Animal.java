@@ -1,10 +1,11 @@
 package com.clinicaveterinaria.model;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,14 +36,14 @@ public class Animal {
 	@JoinColumn(name = "tipo_id")
 	private TipoAnimal tipo;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "alergiaanimal", joinColumns = {
 			@JoinColumn(name = "animal_id", referencedColumnName = "animal_id") }, inverseJoinColumns = {
 					@JoinColumn(name = "alergia_id", referencedColumnName = "alergia_id") })
-	private List<Alergia> alergias;
+	private Set<Alergia> alergias;
 
-	@OneToMany(mappedBy = "id.idAnimal")
-	private List<VacinaAnimal> vacinasAnimal;
+	@OneToMany(mappedBy = "id.idAnimal", fetch = FetchType.EAGER)
+	private Set<VacinaAnimal> vacinasAnimal;
 
 	public Integer getId() {
 		return id;
@@ -84,19 +85,19 @@ public class Animal {
 		this.tipo = tipo;
 	}
 
-	public List<Alergia> getAlergias() {
+	public Set<Alergia> getAlergias() {
 		return alergias;
 	}
 
-	public void setAlergias(List<Alergia> alergias) {
+	public void setAlergias(Set<Alergia> alergias) {
 		this.alergias = alergias;
 	}
-	
-	public List<VacinaAnimal> getVacinasAnimal() {
+
+	public Set<VacinaAnimal> getVacinasAnimal() {
 		return vacinasAnimal;
 	}
 
-	public void setVacinasAnimal(List<VacinaAnimal> vacinasAnimal) {
+	public void setVacinasAnimal(Set<VacinaAnimal> vacinasAnimal) {
 		this.vacinasAnimal = vacinasAnimal;
 	}
 

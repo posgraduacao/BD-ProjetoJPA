@@ -2,15 +2,21 @@ package com.clinicaveterinaria.model;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="VACINAANIMAL")
+@Table(name = "VACINAANIMAL")
 public class VacinaAnimal {
-	
+
 	@EmbeddedId
 	private VacinaAnimalID id;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "vacina_id", insertable = false, updatable = false)
+	private Vacina vacina;
+
 	private String descricaoVeterinario;
 
 	public VacinaAnimalID getId() {
@@ -27,6 +33,14 @@ public class VacinaAnimal {
 
 	public void setDescricaoVeterinario(String descricaoVeterinario) {
 		this.descricaoVeterinario = descricaoVeterinario;
+	}
+	
+	public Vacina getVacina() {
+		return vacina;
+	}
+
+	public void setVacina(Vacina vacina) {
+		this.vacina = vacina;
 	}
 
 	@Override
@@ -53,5 +67,5 @@ public class VacinaAnimal {
 			return false;
 		return true;
 	}
-	
+
 }
