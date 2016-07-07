@@ -2,9 +2,11 @@ package com.clinicaveterinaria.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +20,9 @@ public class Vacina {
 	private String nome;
 	@Column(nullable=true)
 	private String descricao;
+	
+	@OneToMany(mappedBy = "id.idVacina", fetch = FetchType.EAGER)
+	private VacinaAnimal vacinaAnimal;
 	
 	public Integer getId() {
 		return id;
@@ -36,6 +41,12 @@ public class Vacina {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	public VacinaAnimal getVacinaAnimal() {
+		return vacinaAnimal;
+	}
+	public void setVacinaAnimal(VacinaAnimal vacinaAnimal) {
+		this.vacinaAnimal = vacinaAnimal;
 	}
 	
 	@Override

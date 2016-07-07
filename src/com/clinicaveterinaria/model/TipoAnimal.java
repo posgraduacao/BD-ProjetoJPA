@@ -1,10 +1,13 @@
 package com.clinicaveterinaria.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +21,9 @@ public class TipoAnimal {
 	private String nomeRaca;
 	@Column(nullable=true)
 	private String descricao;
+	
+	@OneToMany(mappedBy = "tipo")
+	private List<Animal> animais;
 	
 	public Integer getId() {
 		return id;
@@ -36,6 +42,12 @@ public class TipoAnimal {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	public List<Animal> getAnimais() {
+		return animais;
+	}
+	public void setAnimais(List<Animal> animais) {
+		this.animais = animais;
 	}
 	
 	@Override

@@ -33,7 +33,7 @@ public class Animal {
 	private Pessoa dono;
 
 	@ManyToOne
-	@JoinColumn(name = "tipo_id")
+	@JoinColumn(name = "tipoanimal_id")
 	private TipoAnimal tipo;
 
 	@ManyToMany(fetch = FetchType.EAGER)
