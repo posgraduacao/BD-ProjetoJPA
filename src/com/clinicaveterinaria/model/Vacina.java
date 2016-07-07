@@ -1,5 +1,7 @@
 package com.clinicaveterinaria.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +24,7 @@ public class Vacina {
 	private String descricao;
 	
 	@OneToMany(mappedBy = "id.idVacina", fetch = FetchType.EAGER)
-	private VacinaAnimal vacinaAnimal;
+	private List<VacinaAnimal> vacinas;
 	
 	public Integer getId() {
 		return id;
@@ -42,11 +44,11 @@ public class Vacina {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public VacinaAnimal getVacinaAnimal() {
-		return vacinaAnimal;
+	public List<VacinaAnimal> getVacinas() {
+		return vacinas;
 	}
-	public void setVacinaAnimal(VacinaAnimal vacinaAnimal) {
-		this.vacinaAnimal = vacinaAnimal;
+	public void setVacinas(List<VacinaAnimal> vacinas) {
+		this.vacinas = vacinas;
 	}
 	
 	@Override
