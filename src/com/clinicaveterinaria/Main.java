@@ -4,10 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import com.clinicaveterinaria.model.Alergia;
-import com.clinicaveterinaria.model.Animal;
-import com.clinicaveterinaria.model.VacinaAnimal;
-
 public class Main {
 
 	public static void main(String[] args) {
@@ -54,21 +50,23 @@ public class Main {
 //				}
 //			}
 			
-			Animal a;
+//			Animal a;
+//			
+//			em.getTransaction().begin();
+//			a = em.find(Animal.class, 0);
+//			em.getTransaction().commit();
+//			
+//			System.out.println(a.getNome());
+//			
+//			for (Alergia al : a.getAlergias()) {
+//				System.out.println(al.getNome());
+//			}
+//			
+//			for (VacinaAnimal va : a.getVacinasAnimal()) {
+//				System.out.println(va.getVacina().getNome() + " " + va.getId().getDataVacinacao());
+//			}
 			
-			em.getTransaction().begin();
-			a = em.find(Animal.class, 0);
-			em.getTransaction().commit();
 			
-			System.out.println(a.getNome());
-			
-			for (Alergia al : a.getAlergias()) {
-				System.out.println(al.getNome());
-			}
-			
-			for (VacinaAnimal va : a.getVacinasAnimal()) {
-				System.out.println(va.getVacina().getNome() + " " + va.getId().getDataVacinacao());
-			}
 			
 		} catch (Exception e) {
 			if (em!=null && em.getTransaction().isActive()) {
