@@ -1,84 +1,77 @@
 package com.clinicaveterinaria.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "PESSOA")
-public class Pessoa {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pessoa_id", updatable = false)
-	private Integer id;
-	@Column(nullable = false, unique = true)
-	private Long cpf;
-	@Column(length = 50, nullable = false)
-	private String nome;
-	@Column(nullable = true)
-	private Date nascimento;
-
-	@OneToMany(mappedBy = "dono")
-	private List<Animal> animais;
+@Table(name="PESSOA")
+@NamedQueries({
+	@NamedQuery (name="Pessoa.findBycpf",
+			query = "SELECT p FROM Pessoa p where p.cpf = :cpf" ),
+	@NamedQuery(name="Pessoa.listSemDataNascimento", 
+		query="SELECT p FROM Pessoa p WHERE p.nascimento is null")
+})
+public class Pessoa implements Serializable{
 	
-	@OneToOne
-	@JoinColumn(name="endereco_id")
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="pessoa_id", updatable=false)
+	private Integer id;
+	@Column(nullable=false, unique=true)
+	private Long cpf;
+	@Column(length=50, nullable=false)
+	private String nome;
+	private Date nascimento;
+	@OneToOne(mappedBy="pessoa")
 	private Endereco endereco;
 	
 	@Transient
 	private Integer idade;
+	
+	@OneToMany(mappedBy="dono", fetch=FetchType.LAZY, cascade=CascadeType.PERSIST, orphanRemoval=true)
+	private List<Animal> animais;
+	
+	public Integer getIdade() {
+		return idade;
+	}
+	
+	public Endereco getEndereco() {
+		return endereco;
+	}
 
-	public Integer getId() {
-		return id;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public void setIdade(Integer idade) {
+		this.idade = idade;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public Long getCpf() {
-		return cpf;
+	public int getId() {
+		return id;
 	}
-
-	public void setCpf(Long cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Date getNascimento() {
-		return nascimento;
-	}
-
-	public void setNascimento(Date nascimento) {
-		if (nascimento == null) {
-			idade = null;
-		} else {
-			idade = 0; // implementar
-		}
-		this.nascimento = nascimento;
-	}
-
-	public Integer getIdade() {
-		return idade;
-	}
-
+	
 	public List<Animal> getAnimais() {
 		return animais;
 	}
@@ -87,14 +80,42 @@ public class Pessoa {
 		this.animais = animais;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public Long getCpf() {
+		return cpf;
+	}
+	
+	public void setCpf(Long cpf) {
+		this.cpf = cpf;
+	}
+	
+	public String getNome() {
+		return nome;
+	}
+	
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	public Date getNascimento() {
+		return nascimento;
+	}
+	
+	public void setNascimento(Date nascimento) {
+		this.nascimento = nascimento;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -104,12 +125,8 @@ public class Pessoa {
 		if (getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (id != other.id)
 			return false;
 		return true;
 	}
-
 }

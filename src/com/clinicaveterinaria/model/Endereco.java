@@ -1,95 +1,78 @@
 package com.clinicaveterinaria.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ENDERECO")
-public class Endereco {
+@Table(name="ENDERECO")
+public class Endereco implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "endereco_id", updatable = false)
-	private Integer id;
-
-	@OneToOne(mappedBy = "endereco")
-	@JoinColumn(name = "pessoa_id")
+	@OneToOne
+    @JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
-
-	@Column(nullable = false, length = 50)
+	
+	@Column(nullable=false)
 	private String rua;
-
-	@Column(nullable = false)
-	private Integer numero;
-
-	@Column(nullable = true, length = 30)
+	@Column(nullable=false)
 	private String bairro;
-
-	@Column(nullable = true, length = 30)
+	@Column(nullable=false)
+	private int numero;
+	@Column(nullable=false)
 	private String cidade;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
+	@Column(nullable=true)
+	private int cep;
 	public Pessoa getPessoa() {
 		return pessoa;
 	}
-
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}
-
 	public String getRua() {
 		return rua;
 	}
-
 	public void setRua(String rua) {
 		this.rua = rua;
 	}
-
-	public Integer getNumero() {
-		return numero;
-	}
-
-	public void setNumero(Integer numero) {
-		this.numero = numero;
-	}
-
 	public String getBairro() {
 		return bairro;
 	}
-
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
-
+	public int getNumero() {
+		return numero;
+	}
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
 	public String getCidade() {
 		return cidade;
 	}
-
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
-
+	public int getCep() {
+		return cep;
+	}
+	public void setCep(int cep) {
+		this.cep = cep;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -99,12 +82,11 @@ public class Endereco {
 		if (getClass() != obj.getClass())
 			return false;
 		Endereco other = (Endereco) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (pessoa == null) {
+			if (other.pessoa != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!pessoa.equals(other.pessoa))
 			return false;
 		return true;
 	}
-
 }

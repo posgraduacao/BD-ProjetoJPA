@@ -1,7 +1,6 @@
 package com.clinicaveterinaria.model;
 
-import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,88 +16,82 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ANIMAL")
+@Table(name="ANIMAL")
 public class Animal {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "animal_id", updatable = false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="animal_id", updatable=false)
 	private Integer id;
-	@Column(nullable = false)
-	private String nome;
-	@Column(nullable = true)
-	private Date nascimento;
-
 	@ManyToOne
-	@JoinColumn(name = "pessoa_id")
+    @JoinColumn(name = "tipoanimal_id")
+	private TipoAnimal tipoAnimal;
+	@ManyToOne
+    @JoinColumn(name = "pessoa_id")
 	private Pessoa dono;
-
-	@ManyToOne
-	@JoinColumn(name = "tipoanimal_id")
-	private TipoAnimal tipo;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "alergiaanimal", joinColumns = {
-			@JoinColumn(name = "animal_id", referencedColumnName = "animal_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "alergia_id", referencedColumnName = "alergia_id") })
-	private Set<Alergia> alergias;
-
-	@OneToMany(mappedBy = "id.idAnimal", fetch = FetchType.EAGER)
-	private Set<VacinaAnimal> vacinasAnimal;
-
+	private String nome;
+	
+	@OneToMany
+	(mappedBy="id.idAnimal", fetch=FetchType.LAZY)
+	private List<VacinaAnimal> vacinaAnimal;
+	
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(
+	  name="alergiaanimal",
+	  joinColumns={@JoinColumn(name="animal_id", referencedColumnName="animal_id")},
+	  inverseJoinColumns={@JoinColumn(name="alergia_id", referencedColumnName="alergia_id")})
+	private List<Alergia> alergias;
+	
 	public Integer getId() {
 		return id;
 	}
-
-	public void setId(Integer id) {
+	
+	public void setId(int id) {
 		this.id = id;
 	}
-
+	
+	public Pessoa getDono() {
+		return dono;
+	}
+	
+	public void setDono(Pessoa dono) {
+		this.dono = dono;
+	}
+	
 	public String getNome() {
 		return nome;
 	}
-
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public Date getNascimento() {
-		return nascimento;
+	public TipoAnimal getTipoAnimal() {
+		return tipoAnimal;
 	}
 
-	public void setNascimento(Date nascimento) {
-		this.nascimento = nascimento;
+	public void setTipoAnimal(TipoAnimal tipoAnimal) {
+		this.tipoAnimal = tipoAnimal;
 	}
 
-	public Pessoa getDono() {
-		return dono;
+	public List<VacinaAnimal> getVacinaAnimal() {
+		return vacinaAnimal;
 	}
 
-	public void setDono(Pessoa dono) {
-		this.dono = dono;
+	public void setVacinaAnimal(List<VacinaAnimal> vacinaAnimal) {
+		this.vacinaAnimal = vacinaAnimal;
 	}
 
-	public TipoAnimal getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoAnimal tipo) {
-		this.tipo = tipo;
-	}
-
-	public Set<Alergia> getAlergias() {
+	public List<Alergia> getAlergias() {
 		return alergias;
 	}
 
-	public void setAlergias(Set<Alergia> alergias) {
+	public void setAlergias(List<Alergia> alergias) {
 		this.alergias = alergias;
 	}
 
-	public Set<VacinaAnimal> getVacinasAnimal() {
-		return vacinasAnimal;
-	}
-
-	public void setVacinasAnimal(Set<VacinaAnimal> vacinasAnimal) {
-		this.vacinasAnimal = vacinasAnimal;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	@Override
@@ -125,5 +118,4 @@ public class Animal {
 			return false;
 		return true;
 	}
-
 }
